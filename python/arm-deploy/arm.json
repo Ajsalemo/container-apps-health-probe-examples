@@ -1,0 +1,123 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "environment_name": {
+      "type": "string"
+    },
+    "location": {
+      "defaultValue": "eastus",
+      "type": "string"
+    },
+    "azureContainerRegistryServerUrl": {
+      "type": "string"
+    },
+    "azureContainerRegistryPassword": {
+      "type": "securestring"
+    },
+    "azureContainerRegistryUsername": {
+      "type": "string"
+    },
+    "azureContainerRegistryImageName": {
+      "type": "string"
+    },
+    "azureContainerRegistryImageTag": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.App/containerApps",
+      "apiVersion": "2023-05-01",
+      "name": "containerappshealthprobespython",
+      "location": "[parameters('location')]",
+      "properties": {
+        "managedEnvironmentId": "[resourceId('Microsoft.App/managedEnvironments/', parameters('environment_name'))]",
+        "configuration": {
+          "ingress": {
+            "external": true,
+            "targetPort": 8000
+          },
+          "secrets": [
+            {
+
+              "name": "azurecontainerregistrypasswordref",
+              "value": "[parameters('azureContainerRegistryPassword')]"
+            }
+          ],
+          "registries": [
+            {
+              "server": "[parameters('azureContainerRegistryServerUrl')]",
+              "username": "[parameters('azureContainerRegistryUsername')]",
+              "passwordSecretRef": "azurecontainerregistrypasswordref"
+            }
+          ]
+        },
+        "template": {
+          "containers": [
+            {
+              "image": "[concat(parameters('azureContainerRegistryServerUrl'), '/', parameters('azureContainerRegistryImageName'), ':', parameters('azureContainerRegistryImageTag'))]",
+              "name": "python",
+              "resources": {
+                "cpu": 0.5,
+                "memory": "1.0Gi"
+              },
+              "probes": [
+                {
+                  "type": "Liveness",
+                  "httpGet": {
+                    "httpHeaders": [
+                      {
+                        "name": "probe",
+                        "value": "Liveness"
+                      }
+                    ],
+                    "path": "/probe/https",
+                    "port": 8443,
+                    "scheme": "HTTPS"
+                  },
+                  "periodSeconds": 10
+                },
+                {
+                  "type": "Readiness",
+                  "httpGet": {
+                    "httpHeaders": [
+                      {
+                        "name": "probe",
+                        "value": "Readiness"
+                      }
+                    ],
+                    "path": "/probe/http",
+                    "port": 8000,
+                    "scheme": "HTTP"
+                  },
+                  "periodSeconds": 10
+                },
+                {
+                  "type": "Startup",
+                  "httpGet": {
+                    "httpHeaders": [
+                      {
+                        "name": "probe",
+                        "value": "Startup"
+                      }
+                    ],
+                    "path": "/probe/http",
+                    "port": 8000,
+                    "scheme": "HTTP"
+                  },
+                  "initialDelaySeconds": 10,
+                  "periodSeconds": 10
+                }
+              ]
+            }
+          ],
+          "scale": {
+            "minReplicas": 1,
+            "maxReplicas": 1
+          }
+        }
+      }
+    }
+  ]
+}
