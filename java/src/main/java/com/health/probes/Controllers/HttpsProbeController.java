@@ -11,17 +11,17 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class HttpProbeController {
-    Logger LOG = LoggerFactory.getLogger(HttpProbeController.class);
+public class HttpsProbeController {
+    Logger LOG = LoggerFactory.getLogger(HttpsProbeController.class);
 
-    @GetMapping("/probe/http")
+    @GetMapping("/probe/https")
     public ResponseEntity<String> listAllHeaders(
             @RequestHeader Map<String, String> headers) {
         headers.forEach((key, value) -> {
             LOG.info(String.format("Header '%s' = %s", key, value));
         });
-        System.out.println("Receiving request from an HTTP probe..");
+        System.out.println("Receiving request from an HTTPS probe..");
 
-        return new ResponseEntity<String>("HTTP probe", HttpStatus.OK);
+        return new ResponseEntity<String>("HTTPS probe", HttpStatus.OK);
     }
 }
