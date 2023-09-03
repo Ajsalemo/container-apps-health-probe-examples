@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+spec:
+  selector:
+    app: java-deployment
+  ports:
+    - protocol: TCP
+      port: 8080
+      nodePort: 31321
+  type: NodePort
