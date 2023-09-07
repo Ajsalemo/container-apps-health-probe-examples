@@ -24,11 +24,25 @@ spec:
           httpGet:
             path: /probe/http
             port: 8080
-        readinessProbe:
-          httpGet:
-            path: /probe/https
-            port: 8443
-        startupProbe:
-          httpGet:
-            path: /probe/http
-            port: 8080
+            httpHeaders:
+            - name: probe
+              value: "Liveness"
+          periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /probe/https
+              port: 8443
+              scheme: HTTPS
+              httpHeaders:
+              - name: probe
+                value: "Readiness"
+            periodSeconds: 10
+          startupProbe:
+            httpGet:
+              path: /probe/http
+              port: 8080
+              httpHeaders:
+              - name: probe
+                value: "Startup"
+            periodSeconds: 10
+            initialDelaySeconds: 5
