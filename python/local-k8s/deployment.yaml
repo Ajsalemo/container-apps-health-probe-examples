@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: python-deployment
+  labels:
+    app: python-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: python-deployment
+  template:
+    metadata:
+      labels:
+        app: python-deployment
+    spec:
+      containers:
+      - name: python
+        image: container-apps-health-probe-examples-python:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8000
+        livenessProbe:
+          httpGet:
+            path: /probe/http
+            port: 8000
+        readinessProbe:
+          httpGet:
+            path: /probe/https
+            port: 8443
+        startupProbe:
+          httpGet:
+            path: /probe/http
+            port: 8000
