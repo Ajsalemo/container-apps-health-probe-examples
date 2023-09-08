@@ -1,43 +1,46 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: python-deployment
+  name: php-deployment
   labels:
-    app: python-deployment
+    app: php-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: python-deployment
+      app: php-deployment
   template:
     metadata:
       labels:
-        app: python-deployment
+        app: php-deployment
     spec:
       containers:
-      - name: python
-        image: container-apps-health-probe-examples-python:latest
+      - name: php
+        image: container-apps-health-probe-examples-php:latest
         imagePullPolicy: IfNotPresent
+        env:
+        - name: APP_KEY
+          value: "base64:0uxkf4sRLsJddj3duoNdcE/jJKz6ZWk8rarEH2CisqM="
         ports:
-        - containerPort: 8000
+        - containerPort: 80
         livenessProbe:
           httpGet:
             path: /probe/http
-            port: 8000
+            port: 80
             httpHeaders:
             - name: probe
               value: "Liveness"
         readinessProbe:
           httpGet:
             path: /probe/https
-            port: 8443
+            port: 443
             httpHeaders:
             - name: probe
               value: "Readiness"
         startupProbe:
           httpGet:
             path: /probe/http
-            port: 8000
+            port: 80
             httpHeaders:
             - name: probe
               value: "Startup"
