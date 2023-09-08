@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: node-service
+spec:
+  selector:
+    app: node-deployment
+  ports:
+    - protocol: TCP
+      port: 3000
+      nodePort: 31322
+  type: NodePort
