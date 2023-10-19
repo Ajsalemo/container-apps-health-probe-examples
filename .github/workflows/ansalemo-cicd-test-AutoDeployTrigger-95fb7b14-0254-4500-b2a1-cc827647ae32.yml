@@ -1,0 +1,42 @@
+name: Trigger auto deployment for ansalemo-cicd-test
+
+# When this action will be executed
+on:
+  # Automatically trigger it when detected changes in repo
+  push:
+    branches: 
+      [ main ]
+    paths:
+    - 'go/**'
+    - '.github/workflows/ansalemo-cicd-test-AutoDeployTrigger-95fb7b14-0254-4500-b2a1-cc827647ae32.yml'
+
+  # Allow manual trigger 
+  workflow_dispatch:
+      
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.ANSALEMOCICDTEST_AZURE_CREDENTIALS }}
+
+      - name: Build and push container image to registry
+        uses: azure/container-apps-deploy-action@v1
+        with:
+          appSourcePath: ${{ github.workspace }}/go 
+          registryUrl: ansalemoacr.azurecr.io
+          registryUsername: ${{ secrets.ANSALEMOCICDTEST_REGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.ANSALEMOCICDTEST_REGISTRY_PASSWORD }}
+          containerAppName: ansalemo-cicd-test
+          resourceGroup: ansalemo-rg
+          imageToBuild: ansalemoacr.azurecr.io/ansalemo-cicd-test:${{ github.sha }}
+          dockerfilePath: Dockerfile
+
+     
+
