@@ -15,7 +15,7 @@ on:
       
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
       - name: Checkout to the branch
@@ -33,9 +33,9 @@ jobs:
           registryUrl: ansalemoacr.azurecr.io
           registryUsername: ${{ secrets.ANSALEMOCICDTEST_REGISTRY_USERNAME }}
           registryPassword: ${{ secrets.ANSALEMOCICDTEST_REGISTRY_PASSWORD }}
-          containerAppName: ansalemo-cicd-test
+          containerAppName: ansalemo-aca-placeholder
           resourceGroup: ansalemo-rg
-          imageToBuild: ansalemoacr.azurecr.io/ansalemo-cicd-test:${{ github.sha }}
+          imageToBuild: ansalemoacr.azurecr.io/ansalemo-gh-runner-go:${{ github.sha }}
           dockerfilePath: Dockerfile
 
      
