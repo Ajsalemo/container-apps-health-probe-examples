@@ -3,7 +3,7 @@ FROM composer:2.5.7 as build
 COPY . /app/
 RUN composer install --prefer-dist --no-dev --optimize-autoloader --no-interaction
 
-FROM php:8.2.9-apache-bullseye as production
+FROM php:8.4.11-apache-bullseye as production
 
 COPY --from=build /app /var/www/html
 COPY apache/000-default.conf /etc/apache2/sites-available/000-default.conf
