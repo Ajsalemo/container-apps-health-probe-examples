@@ -4,7 +4,7 @@ COPY . /usr/src/app
 
 RUN mvn -f /usr/src/app/pom.xml clean package -DskipTests
 
-FROM eclipse-temurin:21.0.9_10-jdk-noble
+FROM eclipse-temurin:24.0.2_12-jdk-noble
 WORKDIR /usr/src/app
 
 COPY --from=build /usr/src/app/target/probes-0.0.1-SNAPSHOT.jar probes-0.0.1-SNAPSHOT.jar
