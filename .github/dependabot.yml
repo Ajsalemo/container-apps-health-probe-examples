@@ -6,52 +6,131 @@
 version: 2
 updates:
   - package-ecosystem: "npm" 
-    directory: "/node" 
+    directory: "/node/codeless" 
     schedule:
       interval: "weekly"
 
   - package-ecosystem: "docker"
-    directory: "/node"
+    directory: "/node/codeless"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "npm" 
+    directory: "/node/sdk" 
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "docker"
+    directory: "/node/sdk"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "dotnet-sdk" 
+    directory: "/dotnet/codeless" 
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "docker"
+    directory: "/dotnet/codeless"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "dotnet-sdk" 
+    directory: "/dotnet/sdk" 
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "docker"
+    directory: "/dotnet/sdk"
     schedule:
       interval: "weekly"
 
   - package-ecosystem: "gomod" 
-    directory: "/go" 
+    directory: "/go/sdk" 
     schedule:
       interval: "weekly"
 
   - package-ecosystem: "docker"
-    directory: "/go"
+    directory: "/go/sdk"
     schedule:
       interval: "weekly"
 
   - package-ecosystem: "maven" 
-    directory: "/java" 
+    directory: "/java/agent" 
     schedule:
       interval: "weekly"
 
   - package-ecosystem: "docker"
-    directory: "/java"
+    directory: "/java/agent"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "maven" 
+    directory: "/java/springbootstarter" 
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "docker"
+    directory: "/java/springbootstarter"
     schedule:
       interval: "weekly"
 
   - package-ecosystem: "composer" 
-    directory: "/php" 
+    directory: "/php/sdk" 
     schedule:
       interval: "weekly"
 
   - package-ecosystem: "docker"
-    directory: "/php"
+    directory: "/php/sdk"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "composer" 
+    directory: "/php/codeless" 
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "docker"
+    directory: "/php/codeless"
     schedule:
       interval: "weekly"
 
   - package-ecosystem: "pip" 
-    directory: "/python" 
+    directory: "/python/codeless" 
     schedule:
       interval: "weekly"
 
   - package-ecosystem: "docker"
-    directory: "/python"
+    directory: "/python/codeless"
     schedule:
       interval: "weekly"
 
+  - package-ecosystem: "pip" 
+    directory: "/python/sdk" 
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "docker"
+    directory: "/python/sdk"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "docker-compose"
+    directory: "/local-aspire"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "docker-compose"
+    directory: "/local-collector/azure-monitor"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "docker-compose"
+    directory: "/local-collector/datadog"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "docker-compose"
+    directory: "/local-collector/zipkin"
+    schedule:
+      interval: "weekly"
